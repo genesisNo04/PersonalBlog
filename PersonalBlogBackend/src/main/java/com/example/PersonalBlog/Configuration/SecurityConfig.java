@@ -16,6 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
+    private static final String API_V1 = "/v1";
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -35,8 +37,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**").hasAnyRole("ADMIN","USER")
+                        .requestMatchers(API_V1 + "/admin/**").hasRole("ADMIN")
+                        .requestMatchers(API_V1 + "/user/**").hasAnyRole("ADMIN","USER")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(httpBasic -> {})

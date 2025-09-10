@@ -12,22 +12,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
+@RequestMapping("/v1")
 public class EntryController {
 
     @Autowired
     EntriesService entriesService;
 
-    @GetMapping("/all")
+    @GetMapping("/user/all")
     public List<Entry> getAllEntry() {
         return entriesService.getAllEntries();
     }
 
-    @GetMapping("/home")
+    @GetMapping("/user/home")
     public List<ArticleDateDTO> getAllArticleAndDates() {
         return entriesService.findArticleAndDates();
     }
 
-    @PostMapping("/save")
+    @PostMapping("/admin/save")
     public ResponseEntity<Entry> saveEntry(@RequestBody Entry entry) {
         entry.setCreatedAt(LocalDateTime.now());
         entry.setModifiedAt(LocalDateTime.now());
@@ -36,7 +37,7 @@ public class EntryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveEntry);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/admin/update/{id}")
     public ResponseEntity<Entry> updateEntry(@PathVariable Long id, @RequestBody Entry updatedEntry) {
         Entry currentEntry = entriesService.getEntryById(id);
 
@@ -52,7 +53,7 @@ public class EntryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveEntry);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/admin/delete/{id}")
     public ResponseEntity<Entry> deleteEntry(@PathVariable Long id) {
         Entry currentEntry = entriesService.getEntryById(id);
 
